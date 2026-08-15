@@ -300,6 +300,11 @@
   .btn:active { transform: translateY(0); }
   .btn-primary   { background: var(--punch); color: var(--white); }
   .btn-primary:hover { background: #F03A92; }
+  /* Punch is the CTA colour everywhere except on a Bubblegum ground, where
+     pink-on-pink loses the button entirely. Grape carries it there: 7.97:1
+     against the field, and Cream on Grape is 12.67:1. */
+  .field-bubblegum .btn-primary { background: var(--grape); color: var(--cream); }
+  .field-bubblegum .btn-primary:hover { background: #32154F; }
   .btn-secondary {
     border: 1.5px solid var(--field-rule);
     color: var(--field-ink);
@@ -330,7 +335,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    background: rgba(251, 245, 240, 0.86);
+    background: rgba(251, 245, 240, 0.97);
     backdrop-filter: blur(18px) saturate(1.4);
     -webkit-backdrop-filter: blur(18px) saturate(1.4);
     border-bottom: 1px solid rgba(26,19,32,0.08);
@@ -393,23 +398,30 @@
     align-items: center;
     padding: calc(var(--nav-h) + clamp(3rem, 8vw, 6rem)) var(--gutter) clamp(3.5rem, 8vw, 6rem);
     color: var(--cream);
-    /* Scrim first, then the photograph, then a Grape base that carries the
-       section on its own if the photo has not landed yet. */
+    /* Four layers, front to back: a directional scrim that beds the type on
+       the left; a Grape wash that warms an otherwise flat, cool-lit frame
+       into the palette; the photograph; and a Grape base that carries the
+       section alone if the photo ever fails to load.
+       The photo is a wide group shot — figures run the full width, so the
+       left scrim is heavy by necessity. See note in the hero markup. */
     background-image:
-      linear-gradient(105deg, rgba(26,19,32,0.86) 0%, rgba(26,19,32,0.62) 46%, rgba(26,19,32,0.30) 100%),
+      linear-gradient(100deg, rgba(26,19,32,0.86) 0%, rgba(26,19,32,0.60) 44%, rgba(26,19,32,0.28) 100%),
+      linear-gradient(to bottom, rgba(62,26,99,0.26) 0%, rgba(62,26,99,0.06) 46%, rgba(26,19,32,0.44) 100%),
       url('assets/hero.jpg'),
       radial-gradient(60rem 46rem at 78% 20%, rgba(201,167,255,0.34), transparent 70%);
     background-color: var(--grape);
-    background-size: cover, cover, cover;
-    background-position: center, center, center;
+    background-size: cover, cover, cover, cover;
+    background-position: center, center, center 38%, center;
     --field-ink: var(--cream);
     --field-ink-soft: rgba(251,245,240,0.80);
     --field-rule: rgba(251,245,240,0.34);
     --field-accent: var(--bubblegum);
   }
   .hero-inner { max-width: var(--max-w); margin: 0 auto; width: 100%; }
-  .hero-content { max-width: 40ch; }
-  .hero h1 { margin-bottom: 20px; }
+  .hero-content { max-width: 620px; }
+  /* 13ch forces the two-line break on wide screens; min() stops it exceeding
+     the column on narrow ones, where 13ch is wider than the viewport. */
+  .hero h1 { margin-bottom: 20px; max-width: min(13ch, 100%); }
   .hero .tagline { color: var(--bubblegum); margin-bottom: 24px; max-width: 30ch; }
   .hero-descriptor {
     font-size: var(--fs-lead);
@@ -461,6 +473,8 @@
     border-radius: var(--radius);
     padding: 28px 24px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
   }
   .phase-card:hover { transform: translateY(-4px); box-shadow: 0 14px 34px rgba(26,19,32,0.08); }
   .phase-card h4 { color: var(--phase); font-size: var(--fs-h3); font-weight: 900; margin-bottom: 6px; }
@@ -469,8 +483,11 @@
     letter-spacing: 0.1em; color: var(--field-ink-faint); margin-bottom: 14px;
   }
   .phase-card p { font-size: 0.9375rem; line-height: 1.62; color: var(--field-ink-soft); margin-bottom: 18px; }
+  /* Pin the focus chip to the bottom so all four align regardless of copy length. */
+  .phase-card .phase-focus { margin-top: auto; }
   .phase-focus {
     display: inline-block;
+    align-self: flex-start;
     font-size: 0.75rem; font-weight: 700; letter-spacing: 0.02em;
     padding: 7px 15px; border-radius: var(--radius-pill);
     background: var(--phase-tint); color: var(--phase);
@@ -571,7 +588,10 @@
     background: linear-gradient(150deg, rgba(255,173,215,0.5), rgba(201,167,255,0.45));
     aspect-ratio: 4 / 5;
   }
-  .portrait img { width: 100%; height: 100%; object-fit: cover; }
+  /* Source is 2:3 into a 4:5 box, so cover trims vertically. Bias upward to
+     hold the face and both hands and drop the lower legs — that keeps the
+     frame on the breath gesture rather than the body. */
+  .portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; }
   .credential {
     font-family: var(--font-serif); font-style: italic; text-transform: none;
     font-size: 1.1875rem; color: var(--field-accent); margin: 6px 0 24px;
@@ -602,7 +622,8 @@
     font-family: var(--font-display); font-weight: 900; font-size: 1.25rem;
     color: var(--field-accent);
   }
-  .step h4 { margin-bottom: 10px; font-size: var(--fs-h3); font-weight: 800; }
+    /* Two lines reserved so the three columns' body copy shares a baseline. */
+  .step h4 { margin-bottom: 10px; font-size: var(--fs-h3); font-weight: 800; min-height: 2.2em; }
   .step p { font-size: 0.9375rem; line-height: 1.62; color: var(--field-ink-soft); }
 
   /* ── Questions ── */
@@ -684,7 +705,9 @@
     .nav-links { display: none; }
     .nav-hamburger { display: flex; }
 
-    .hero { min-height: auto; background-position: center, 60% center, center; }
+    /* Cover crops hard to the centre on a phone; bias the photo up so the
+       front row of faces survives instead of the empty turf. */
+    .hero { min-height: auto; background-position: center, center, center 26%, center; }
     .hero-content { max-width: none; }
     .hero .tagline, .hero-descriptor { max-width: none; }
 
@@ -743,7 +766,14 @@
 <!-- ── 1 · Hero ── -->
 <header class="hero" id="top">
   <div class="hero-inner">
-    <div class="hero-content" data-hr-todo="hero.jpg — full-bleed candid, keep the left third open">
+    <!-- Hero photograph: HerRhythm community yoga session, Bengaluru.
+         HR-TODO (soft): this is a strong proof-of-community frame but the
+         figures span the full width, so the type sits over a heavy scrim
+         rather than open space, and the light is flat rather than golden.
+         A mid-run golden-hour frame with an open left third would let the
+         scrim lighten considerably. This shot would then be ideal on the
+         Run + Yoga card, which is exactly what it depicts. -->
+    <div class="hero-content">
       <h1>Come back to yourself</h1>
       <p class="tagline">Women don't train in straight lines. We train in seasons.</p>
       <p class="hero-descriptor">A women's movement community in Bengaluru — running, yoga and strength, trained by the science of your seasons. Coached by Shruthi, one woman at a time.</p>
@@ -935,7 +965,7 @@
 <section class="section field-cream">
   <div class="inner split">
     <div class="portrait">
-      <img src="assets/shruthi.jpg" alt="Shruthi Jain, founder and head coach of HerRhythm" data-hr-todo="shruthi.jpg — warm candid portrait, eyes in upper third" />
+      <img src="assets/shruthi.jpg" width="1400" height="2100" loading="lazy" alt="Shruthi Jain seated in a breath practice, one hand at her chest and one at her belly" />
     </div>
     <div>
       <p class="eyebrow">The Coach</p>
