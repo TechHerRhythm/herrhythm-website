@@ -1,23 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-IN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HerRhythm — Women Don't Train In Straight Lines</title>
-  <meta name="description" content="A women's movement community in Bengaluru — running, yoga and strength, trained by the science of your seasons. Cycle-synced coaching by Shruthi Jain. Apply to join." />
+  <!-- The <title> is read by search engines and by strangers scanning results,
+       so it carries category + city. The tagline is a brand asset and lives in
+       og:title, where the reader already knows who we are. -->
+  <title>HerRhythm — Women's Running &amp; Movement, Bengaluru</title>
+  <meta name="description" content="A 12-week cycle-synced running program for women in Bengaluru — plus yoga, strength and monthly Run + Yoga Sundays. Coached by Shruthi Jain." />
+  <!-- Traffic arrives via Instagram bio and WhatsApp forwards, which append
+       ?igshid / ?fbclid / ?utm_*. Pages also serves / and /index.html. The
+       canonical collapses all of those into one URL. -->
+  <link rel="canonical" href="https://herrhythm.in/" />
+  <!-- index,follow is the default and not worth declaring; max-image-preview
+       is the point — it permits large thumbnails in mobile results and Discover. -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
 
   <!-- Open Graph / share card -->
   <meta property="og:site_name" content="HerRhythm" />
   <meta property="og:title" content="HerRhythm — Women Don't Train In Straight Lines" />
   <meta property="og:description" content="Women don't train in straight lines. We train in seasons. A women's movement community in Bengaluru — running, yoga and strength, trained by the science of your seasons." />
-  <meta property="og:url" content="https://herrhythm.in" />
+  <meta property="og:url" content="https://herrhythm.in/" />
   <meta property="og:type" content="website" />
-  <!-- HR-TODO: no 1200x630 share card exists yet. This square icon renders as a
-       clean square card rather than a letterboxed crop. Commission a proper OG
-       image carrying the logo lockup + tagline, then swap these three tags. -->
+  <meta property="og:locale" content="en_IN" />
+  <!-- HR-TODO: no 1200x630 share card exists yet, so this is the square app
+       icon and the tags declare its real dimensions (never lie about these —
+       scrapers that get a mismatch drop the card entirely). twitter:card is
+       "summary" to match a square asset.
+       When the real card ships: a photograph of the community mid-run, warm
+       light, faces visible, with the logo lockup and the tagline. Keep all
+       text inside a centred 1000x430 safe area (WhatsApp and Instagram crop
+       inward) at >=40px in the 1200px master, under 300KB. Then switch these
+       to 1200/630 and twitter:card to summary_large_image. -->
   <meta property="og:image" content="https://herrhythm.in/assets/icon-512.png" />
   <meta property="og:image:width" content="512" />
   <meta property="og:image:height" content="512" />
+  <meta property="og:image:alt" content="HerRhythm — a women's movement community in Bengaluru" />
+  <meta name="twitter:card" content="summary" />
 
   <!-- Icons -->
   <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" />
@@ -34,14 +53,32 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": "SportsOrganization",
+    "@id": "https://herrhythm.in/#organization",
     "name": "HerRhythm",
+    "alternateName": "HerRhythm Bangalore",
     "description": "A women's movement community in Bengaluru — running, yoga and strength, trained by the science of your seasons.",
-    "url": "https://herrhythm.in",
-    "logo": "https://herrhythm.in/assets/logo-black.png",
-    "areaServed": "Bengaluru, India",
-    "founder": { "@type": "Person", "name": "Shruthi Jain", "jobTitle": "Founder & Head Coach" },
-    "sameAs": ["https://instagram.com/herrhythm.co"]
+    "url": "https://herrhythm.in/",
+    "logo": "https://herrhythm.in/assets/logo-on-pink.png",
+    "image": "https://herrhythm.in/assets/hero.jpg",
+    "email": "info@herrhythm.in",
+    "areaServed": { "@type": "City", "name": "Bengaluru" },
+    "knowsAbout": [
+      "cycle-synced training",
+      "women's running",
+      "running with PCOS",
+      "post-partum return to running",
+      "perimenopause and endurance",
+      "yoga for runners"
+    ],
+    "founder": {
+      "@type": "Person",
+      "name": "Shruthi Jain",
+      "jobTitle": "Founder & Head Coach",
+      "description": "Two-time Boston Marathon qualifier and yoga therapist.",
+      "sameAs": ["https://www.instagram.com/shruti.yoginirunner/"]
+    },
+    "sameAs": ["https://www.instagram.com/herrhythm.co/"]
   }
   </script>
 
@@ -267,6 +304,9 @@
   em { font-family: var(--font-serif); font-style: italic; text-transform: none; }
   h1 em, h2 em, h3 em { color: var(--field-accent); }
 
+  /* Was an <h2> chosen for its size rather than its role. Now a paragraph;
+     .serif-line still supplies every visual, so nothing changes on screen. */
+  .pull-quote { margin-left: auto; margin-right: auto; text-wrap: balance; }
   .rule { height: 1px; background: var(--field-rule); border: 0; }
 
   /* Spacing utilities — these exist so section markup carries no inline
@@ -627,7 +667,7 @@
     color: var(--field-accent);
   }
     /* Two lines reserved so the three columns' body copy shares a baseline. */
-  .step h4 { margin-bottom: 10px; font-size: var(--fs-h3); font-weight: 800; min-height: 2.2em; }
+  .step h3 { margin-bottom: 10px; font-size: var(--fs-h3); font-weight: 800; min-height: 2.2em; }
   .step p { font-size: 0.9375rem; line-height: 1.62; color: var(--field-ink-soft); }
 
   /* ── Questions ── */
@@ -677,7 +717,7 @@
   .foot-grid { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 44px; }
   .foot-logo img { width: 128px; margin-bottom: 20px; }
   footer .tagline { color: var(--field-ink-soft); max-width: 26ch; }
-  .foot-col h4 {
+  .foot-col h2 {
     font-size: var(--fs-eyebrow); letter-spacing: var(--ls-eyebrow);
     color: var(--field-ink-faint); margin-bottom: 16px; font-weight: 800;
   }
@@ -868,7 +908,7 @@
 
       <ul class="stage-list">
         <li><strong>The new mother</strong> finding her way back to movement, at the pace her body allows.</li>
-        <li><strong>The perimenopausal woman</strong> rebuilding stamina in a body that changed the rules.</li>
+        <li><strong>The woman in perimenopause</strong> rebuilding stamina in a body that changed the rules.</li>
         <li><strong>The comeback</strong> after injury, when the fear is louder than the pain.</li>
         <li><strong>The woman mid-pivot</strong> — new city, new job, new life — reclaiming her body as the one constant.</li>
         <li><strong>The overwhelmed woman</strong> who needs one hour that belongs to nobody else.</li>
@@ -914,7 +954,7 @@
 <!-- ── 3b · The yoga line ── -->
 <section class="section field-grape centred">
   <div class="inner-narrow">
-    <h2 class="serif-line">&ldquo;Running is a season. Yoga is how you honour it.&rdquo;</h2>
+    <p class="serif-line pull-quote">&ldquo;Running is a season. Yoga is how you honour it.&rdquo;</p>
     <img class="submark-divider" src="assets/submark-pink.png" alt="" width="64" height="64" />
     <p class="lead">Yoga isn't an add-on at <span class="brand">HerRhythm</span>. It's the seasons made physical — what we do when your season calls for breath rather than pace, restoration rather than output.</p>
   </div>
@@ -940,7 +980,7 @@
           <li><strong>Cycle-synced training</strong><span>Log your period; intensity, volume and rest adjust around it.</span></li>
           <li><strong>WhatsApp-first coaching</strong><span>Plans, feedback, check-ins. No app to download. Just your coach, a message away.</span></li>
           <li><strong>Strength through yoga</strong><span>One session a week on the mat, over Zoom. Bodyweight and breath, built for injury prevention and the strength running quietly demands. No gym, no equipment.</span></li>
-          <li><strong>Sundays at Lalbagh</strong><span>7:00 AM, every week, all year. A group thread of women in the same twelve weeks, and the ritual the whole program is built around. Members only, and we keep it that way on purpose.</span></li>
+          <li><strong>Sundays at Lalbagh</strong><span>7:00 AM, every week, all year — monsoon included. A group thread of women in the same twelve weeks, and the ritual the whole program is built around. Members only, and we keep it that way on purpose.</span></li>
         </ul>
 
         <a class="btn btn-primary" href="https://app.herrhythm.in/forms/apply-herrhythm-form-Z12s9i">Apply to join →</a>
@@ -948,7 +988,7 @@
 
       <article class="door">
         <h3>Run + Yoga</h3>
-        <p>One Sunday a month, we open the doors. An easy run, a guided practice on the grass, coffee after, and about thirty women who get it. Roughly thirty spots, and they go.</p>
+        <p>One Sunday a month, we open the doors. An easy group run, a guided yoga practice on the grass, coffee after, and about thirty women who get it. Roughly thirty spots, and they go.</p>
         <p class="door-note">The best way to meet us before you apply.</p>
         <a class="btn btn-secondary" href="https://rzp.io/rzp/the-other-half-august">Come to a Sunday →</a>
       </article>
@@ -1002,17 +1042,17 @@
     <div class="steps">
       <div class="step">
         <div class="step-number">01</div>
-        <h4>Apply, and tell us about your body</h4>
+        <h3>Apply, and tell us about your body</h3>
         <p>Your running history, your goals, your cycle. If you have PCOS, irregular periods, a recent birth, an old injury — we want all of it. Every body is different, and the plan is built for yours. Shruthi reads every application herself.</p>
       </div>
       <div class="step">
         <div class="step-number">02</div>
-        <h4>Get your weekly plan</h4>
+        <h3>Get your weekly plan</h3>
         <p>Your plan lands on WhatsApp every week. Run it, log it, tell her how it felt — and she adjusts before the next one.</p>
       </div>
       <div class="step">
         <div class="step-number">03</div>
-        <h4>Run, log, repeat</h4>
+        <h3>Run, log, repeat</h3>
         <p>Follow the plan. Come to Sundays. Log your runs and your symptoms. Watch what changes — season by season.</p>
       </div>
     </div>
@@ -1100,7 +1140,7 @@
     <div class="faq">
       <details>
         <summary>Do I have to be a runner already?</summary>
-        <p>No. Most women arrive having never run 5K. Walk, jog, or run — the right pace is yours, and the plan starts where you actually are.</p>
+        <p>No. Most women arrive as complete beginners, having never run 5K. Walk, jog, or run — the right pace is yours, and the plan starts where you actually are.</p>
       </details>
       <details>
         <summary>Is this about weight loss?</summary>
@@ -1116,7 +1156,7 @@
       </details>
       <details>
         <summary>Do I need to live in Bengaluru?</summary>
-        <p>For the Sunday runs and the monthly Run + Yoga, yes — those are in-person. The coaching, the weekly plans and the yoga session all run over WhatsApp and Zoom, so women train with us from other cities too.</p>
+        <p>For the Sunday runs and the monthly Run + Yoga, yes — those are in person, in Bangalore. We run at Lalbagh, 7:00 AM. The coaching, the weekly plans and the yoga session all run over WhatsApp and Zoom, so women train with us from other cities too.</p>
       </details>
       <details>
         <summary>What if I miss a week?</summary>
@@ -1166,20 +1206,20 @@
         <p class="tagline">Women don't train in straight lines. We train in seasons.</p>
       </div>
       <div class="foot-col">
-        <h4>Move</h4>
+        <h2>Move</h2>
         <a href="#seasons">The Seasons</a>
         <a href="#ways">Ways to Move</a>
         <!-- HR-TODO: add Journal link here when section 9 ships -->
         <a href="https://app.herrhythm.in/forms/apply-herrhythm-form-Z12s9i">Apply to join</a>
       </div>
       <div class="foot-col">
-        <h4>About</h4>
+        <h2>About</h2>
         <a href="#story">Our story</a>
         <a href="#story">Shruthi</a>
         <a href="mailto:info@herrhythm.in?subject=Partnership%20enquiry">Partnerships</a>
       </div>
       <div class="foot-col">
-        <h4>Reach us</h4>
+        <h2>Reach us</h2>
         <a href="mailto:info@herrhythm.in">info@herrhythm.in</a>
         <!-- The conversion account, per the brand strategy. The old site
              linked @herrhythm.in, which was the wrong one. -->
