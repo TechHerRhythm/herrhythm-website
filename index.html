@@ -43,12 +43,22 @@
   <link rel="icon" href="/assets/icon-512.png" sizes="512x512" />
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
-  <meta name="theme-color" content="#1A1320" />
+  <!-- Matches the nav, which is what sits against the browser chrome. Ink
+       here painted a near-black toolbar above a cream page. -->
+  <meta name="theme-color" content="#FBF5F0" />
 
-  <!-- Type -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Type — self-hosted. Google Fonts costs three round trips before any
+       text paints (DNS+TLS to fonts.googleapis.com, then the CSS, then
+       fonts.gstatic.com). Serving these same-origin removes a whole
+       cross-origin handshake, which on patchy mobile data is worth more
+       than the bytes. Archivo and Hanken are variable fonts, so one file
+       each covers every weight we use.
+       Instrument Serif ships roman + italic; only italic is loaded,
+       because every use of --font-serif sets font-style: italic. -->
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/archivo-latin.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/hanken-grotesk-latin.woff2" crossorigin />
+  <link rel="preload" as="image" href="/assets/hero-1080.jpg" fetchpriority="high" media="(max-width: 700px)" />
+  <link rel="preload" as="image" href="/assets/hero-1920.jpg" fetchpriority="high" media="(min-width: 701px)" />
 
   <script type="application/ld+json">
   {
@@ -60,7 +70,7 @@
     "description": "A women's movement community in Bengaluru — running, yoga and strength, trained by the science of your seasons.",
     "url": "https://herrhythm.in/",
     "logo": "https://herrhythm.in/assets/logo-on-pink.png",
-    "image": "https://herrhythm.in/assets/hero.jpg",
+    "image": "https://herrhythm.in/assets/hero-1920.jpg",
     "email": "info@herrhythm.in",
     "areaServed": { "@type": "City", "name": "Bengaluru" },
     "knowsAbout": [
@@ -83,6 +93,18 @@
   </script>
 
   <style>
+  @font-face {
+    font-family: 'Archivo'; font-style: normal; font-weight: 600 900;
+    font-display: swap; src: url('/assets/fonts/archivo-latin.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Hanken Grotesk'; font-style: normal; font-weight: 400 800;
+    font-display: swap; src: url('/assets/fonts/hanken-grotesk-latin.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Instrument Serif'; font-style: italic; font-weight: 400;
+    font-display: swap; src: url('/assets/fonts/instrument-serif-italic-latin.woff2') format('woff2');
+  }
   /* ═══════════════════════════════════════════════════════════════
      TIER 1 — Raw brand palette. Never referenced by section rules.
      Section CSS may only read tier 2 (field roles) and tier 3.
@@ -121,6 +143,7 @@
     --fs-lead:    clamp(1.0625rem, 0.98rem + 0.45vw, 1.3125rem);
     --fs-body:    clamp(1rem, 0.97rem + 0.18vw, 1.125rem);
     --fs-small:   0.875rem;
+    --fs-small-body: clamp(0.9375rem, 0.90rem + 0.2vw, 1rem);
 
     --ls-display: -0.022em;
     --ls-h2:      -0.018em;
@@ -206,6 +229,7 @@
 
   /* ── Reset ── */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  * { -webkit-tap-highlight-color: rgba(255,79,163,0.18); }
   html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -375,9 +399,10 @@
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    background: rgba(251, 245, 240, 0.97);
-    backdrop-filter: blur(18px) saturate(1.4);
-    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    /* Was rgba(...,0.97) + backdrop-filter. At that opacity the blur was
+       invisible while still forcing a compositing layer that repaints on
+       every scroll frame — measurable jank on low-end Android, zero gain. */
+    background: #FBF5F0;
     border-bottom: 1px solid rgba(26,19,32,0.08);
     transition: box-shadow 0.25s ease;
   }
@@ -401,7 +426,14 @@
     transition: background 0.2s, transform 0.15s;
   }
   .nav-apply:hover { background: #F03A92; color: var(--white); transform: translateY(-1px); }
-  .nav-hamburger { display: none; flex-direction: column; gap: 5px; padding: 6px; }
+  /* 44x44 minimum: this is the only navigation control on a phone.
+     The negative margin keeps the bars optically aligned to the gutter. */
+  .nav-hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    width: 44px; height: 44px; padding: 0;
+    align-items: center; justify-content: center;
+    margin-right: -10px;
+  }
   .nav-hamburger span { display: block; width: 24px; height: 2px; background: var(--ink); border-radius: 2px; }
 
   .mobile-nav {
@@ -415,6 +447,9 @@
     flex-direction: column;
     gap: 4px;
     box-shadow: 0 18px 40px rgba(26,19,32,0.10);
+    max-height: calc(100dvh - var(--nav-h));
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .mobile-nav.open { display: flex; }
   .mobile-nav a {
@@ -432,6 +467,7 @@
 
   /* ── Hero ── */
   .hero {
+    --hero-photo: url('assets/hero-1920.jpg');
     position: relative;
     min-height: 92vh;
     display: flex;
@@ -447,7 +483,7 @@
     background-image:
       linear-gradient(100deg, rgba(26,19,32,0.86) 0%, rgba(26,19,32,0.60) 44%, rgba(26,19,32,0.28) 100%),
       linear-gradient(to bottom, rgba(62,26,99,0.26) 0%, rgba(62,26,99,0.06) 46%, rgba(26,19,32,0.44) 100%),
-      url('assets/hero.jpg'),
+      var(--hero-photo),
       radial-gradient(60rem 46rem at 78% 20%, rgba(201,167,255,0.34), transparent 70%);
     background-color: var(--grape);
     background-size: cover, cover, cover, cover;
@@ -522,7 +558,7 @@
     font-size: 0.6875rem; font-weight: 700; text-transform: uppercase;
     letter-spacing: 0.1em; color: var(--field-ink-faint); margin-bottom: 14px;
   }
-  .phase-card p { font-size: 0.9375rem; line-height: 1.62; color: var(--field-ink-soft); margin-bottom: 18px; }
+  .phase-card p { font-size: var(--fs-small-body); line-height: 1.62; color: var(--field-ink-soft); margin-bottom: 18px; }
   /* Pin the focus chip to the bottom so all four align regardless of copy length. */
   .phase-card .phase-focus { margin-top: auto; }
   .phase-focus {
@@ -584,7 +620,7 @@
     font-family: var(--font-serif); font-style: italic; text-transform: none;
     font-size: 1.0625rem; color: var(--field-accent); margin-bottom: 14px;
   }
-  .season-card p { font-size: 0.9375rem; line-height: 1.62; color: var(--field-ink-soft); }
+  .season-card p { font-size: var(--fs-small-body); line-height: 1.62; color: var(--field-ink-soft); }
 
   /* Sits between the quote and the paragraph, separating them without a rule.
      Pink on Grape rather than white — it echoes the field accent and reads as
@@ -593,7 +629,7 @@
   .submark-divider { display: block; width: 64px; height: auto; margin: 34px auto 30px; }
 
   /* ── Ways to Move ── */
-  .doors { display: grid; grid-template-columns: 1.45fr 1fr; gap: 24px; margin-top: 44px; align-items: start; }
+  .doors { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 24px; margin-top: 44px; align-items: start; }
   .door {
     background: var(--field-surface);
     border: 1px solid var(--field-rule);
@@ -608,7 +644,7 @@
   .door-features { margin-top: 28px; border-top: 1px solid var(--field-rule); }
   .door-features li { list-style: none; padding: 18px 0; border-bottom: 1px solid var(--field-rule); }
   .door-features strong { display: block; font-weight: 700; margin-bottom: 3px; }
-  .door-features span { font-size: 0.9375rem; line-height: 1.6; color: var(--field-ink-soft); }
+  .door-features span { font-size: var(--fs-small-body); line-height: 1.6; color: var(--field-ink-soft); }
 
   /* ── Why We Exist ── */
   .stat-block { margin: 40px 0; }
@@ -668,7 +704,7 @@
   }
     /* Two lines reserved so the three columns' body copy shares a baseline. */
   .step h3 { margin-bottom: 10px; font-size: var(--fs-h3); font-weight: 800; min-height: 2.2em; }
-  .step p { font-size: 0.9375rem; line-height: 1.62; color: var(--field-ink-soft); }
+  .step p { font-size: var(--fs-small-body); line-height: 1.62; color: var(--field-ink-soft); }
 
   /* ── Questions ── */
   .faq { margin-top: 44px; border-top: 1px solid var(--field-rule); }
@@ -703,7 +739,7 @@
     gap: 10px 20px;
     font-size: 0.6875rem; font-weight: 700;
     text-transform: uppercase; letter-spacing: 0.16em;
-    color: rgba(26,19,32,0.62);
+    color: rgba(26,19,32,0.75);   /* 0.62 measured 4.11:1 on Bubblegum; this is ~5.8:1 */
   }
   .cta-strip span { display: inline-flex; align-items: center; gap: 20px; }
   .cta-strip span:not(:last-child)::after {
@@ -721,7 +757,7 @@
     font-size: var(--fs-eyebrow); letter-spacing: var(--ls-eyebrow);
     color: var(--field-ink-faint); margin-bottom: 16px; font-weight: 800;
   }
-  .foot-col a, .foot-col p { display: block; font-size: 0.9375rem; color: var(--field-ink-soft); padding: 5px 0; }
+  .foot-col a, .foot-col p { display: block; font-size: var(--fs-small-body); color: var(--field-ink-soft); padding: 5px 0; }
   .foot-col a:hover { color: var(--field-accent); }
   .foot-base {
     margin-top: 48px; padding-top: 26px;
@@ -735,11 +771,20 @@
      HR-TODO on the rendered page. Ships inert. */
   html[data-debug] [data-hr-todo] { outline: 2px dashed var(--punch); outline-offset: 3px; }
 
+  /* Touch devices latch :hover after a tap, so a tapped CTA stays floating
+     2px high and a card brushed while scrolling stays lifted. */
+  @media (hover: none) {
+    .btn:hover, .nav-apply:hover, .phase-card:hover,
+    .foot-col a:hover, .follow-link:hover {
+      transform: none; box-shadow: none;
+    }
+  }
+
   /* ── Responsive — layout only. No font-size belongs in here; the clamp()
      scale in :root handles every size transition continuously. ── */
   @media (max-width: 1024px) {
     .card-grid-4 { grid-template-columns: repeat(2, 1fr); }
-    .doors { grid-template-columns: 1fr; }
+    .doors { grid-template-columns: minmax(0, 1fr); }
     .foot-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
   }
 
@@ -760,13 +805,19 @@
     .portrait { max-width: 400px; }
     .steps { grid-template-columns: 1fr; gap: 40px; margin-top: 40px; }
     .steps::before { display: none; }
+    /* 1080px covers a 360px screen at DPR 3; the 1920 file is 485K vs 188K */
+    .hero { --hero-photo: url('assets/hero-1080.jpg'); }
+    /* Footer links were 35px and .follow-link 27px — both under 44 */
+    .foot-col a { padding: 11px 0; }
+    .follow-link { padding: 9px 0; }
     .foot-grid { grid-template-columns: 1fr; gap: 32px; }
     .foot-base { flex-direction: column; }
   }
 
   @media (max-width: 480px) {
     .btn-row { flex-direction: column; align-items: stretch; }
-    .btn { justify-content: center; }
+    .btn { justify-content: center; white-space: normal; text-align: center; padding: 17px 24px; }
+    .door { padding: 24px; }
     .hero-strip span:not(:last-child)::after,
     .cta-strip span:not(:last-child)::after { display: none; }
   }
@@ -1019,7 +1070,10 @@
 <section class="section field-cream">
   <div class="inner split">
     <div class="portrait">
-      <img src="assets/shruthi.jpg" width="1400" height="2100" loading="lazy" alt="Shruthi Jain seated in a breath practice, one hand at her chest and one at her belly" />
+      <picture>
+        <source srcset="assets/shruthi.webp" type="image/webp" />
+        <img src="assets/shruthi.jpg" width="1000" height="1500" loading="lazy" decoding="async" alt="Shruthi Jain seated in a breath practice, one hand at her chest and one at her belly" />
+      </picture>
     </div>
     <div>
       <p class="eyebrow">The Coach</p>
@@ -1242,29 +1296,36 @@
 <span id="cta"     class="visually-hidden" aria-hidden="true"></span>
 
 <script>
-  function toggleMenu() {
-    const nav = document.getElementById('mobileNav');
-    const burger = document.querySelector('.nav-hamburger');
-    const open = nav.classList.toggle('open');
+  const drawer = document.getElementById('mobileNav');
+  const burger = document.querySelector('.nav-hamburger');
+
+  // The drawer only covers the top ~300px, so without locking body scroll a
+  // swipe below it scrolls the page away underneath an anchored menu.
+  function setMenu(open, restoreFocus) {
+    drawer.classList.toggle('open', open);
     burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (open) drawer.querySelector('a').focus();
+    else if (restoreFocus) burger.focus();
   }
 
+  function toggleMenu() { setMenu(!drawer.classList.contains('open'), true); }
+
   document.addEventListener('click', function (e) {
-    const nav = document.getElementById('mobileNav');
-    const burger = document.querySelector('.nav-hamburger');
-    if (nav.classList.contains('open') && !nav.contains(e.target) && !burger.contains(e.target)) {
-      nav.classList.remove('open');
-      burger.setAttribute('aria-expanded', 'false');
+    if (drawer.classList.contains('open') && !drawer.contains(e.target) && !burger.contains(e.target)) {
+      setMenu(false, false);   // pointer dismissal shouldn't yank focus back
     }
   });
 
   document.addEventListener('keydown', function (e) {
-    if (e.key !== 'Escape') return;
-    const nav = document.getElementById('mobileNav');
-    if (nav.classList.contains('open')) {
-      nav.classList.remove('open');
-      document.querySelector('.nav-hamburger').setAttribute('aria-expanded', 'false');
-    }
+    if (!drawer.classList.contains('open')) return;
+    if (e.key === 'Escape') { setMenu(false, true); return; }
+    if (e.key !== 'Tab') return;
+    // Keep Tab inside the drawer; otherwise it walks into the hero behind it.
+    const items = drawer.querySelectorAll('a');
+    const first = items[0], last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   });
 
   const navEl = document.getElementById('nav');
