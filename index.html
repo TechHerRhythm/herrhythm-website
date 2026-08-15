@@ -735,11 +735,21 @@
 <body>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     HR-TODO · CTA DESTINATIONS — the only two links on this site.
-     Both currently point at Instagram as a live interim so nothing is a
-     dead click. Replace every href marked data-hr-todo="APPLY_URL" with
-     the application form, and every data-hr-todo="SUNDAY_URL" with the
-     monthly event registration.
+     CTA DESTINATIONS — the only two links on this site.
+
+     Apply to join   → https://app.herrhythm.in/forms/apply-herrhythm-form-Z12s9i
+                       6 links: nav, mobile nav, hero, program card,
+                       final CTA, footer.
+     Come to a Sunday → https://rzp.io/rzp/the-other-half-august
+                       3 links: hero, Run + Yoga card, final CTA.
+
+     HR-TODO RECURRING · the Sunday link is month-specific ("august") and
+     points at a Razorpay payment link, so it dies when that event passes.
+     It needs replacing every month alongside the event. Same failure mode
+     the content doc warns about with hard-coded cohort numbers: a stale
+     link is the fastest way to look abandoned. If a permanent landing
+     page ever exists, point these four links at that instead and this
+     stops being a monthly chore.
      ═══════════════════════════════════════════════════════════════════ -->
 
 <nav id="nav">
@@ -753,7 +763,7 @@
     <a href="#story">Our Story</a>
     <!-- HR-TODO: "Journal" nav item omitted deliberately while section 9 is
          paused. A nav link to a commented-out section is a dead scroll. -->
-    <a class="nav-apply" href="https://www.instagram.com/herrhythm.in/" data-hr-todo="APPLY_URL">Apply to join</a>
+    <a class="nav-apply" href="https://app.herrhythm.in/forms/apply-herrhythm-form-Z12s9i">Apply to join</a>
   </div>
   <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav" onclick="toggleMenu()">
     <span></span><span></span><span></span>
@@ -764,7 +774,7 @@
   <a href="#seasons" onclick="toggleMenu()">The Seasons</a>
   <a href="#ways" onclick="toggleMenu()">Ways to Move</a>
   <a href="#story" onclick="toggleMenu()">Our Story</a>
-  <a class="nav-apply" href="https://www.instagram.com/herrhythm.in/" data-hr-todo="APPLY_URL" onclick="toggleMenu()">Apply to join</a>
+  <a class="nav-apply" href="https://app.herrhythm.in/forms/apply-herrhythm-form-Z12s9i" onclick="toggleMenu()">Apply to join</a>
 </div>
 
 <!-- ── 1 · Hero ── -->
@@ -782,8 +792,8 @@
       <p class="tagline">Women don't train in straight lines. We train in seasons.</p>
       <p class="hero-descriptor">A women's movement community in Bengaluru — running, yoga and strength, trained by the science of your seasons. Coached by Shruthi, one woman at a time.</p>
       <div class="btn-row">
-        <a class="btn btn-primary" href="https://www.instagram.com/herrhythm.in/" data-hr-todo="APPLY_URL">Apply to join</a>
-        <a class="btn btn-secondary" href="https://www.instagram.com/herrhythm.in/" data-hr-todo="SUNDAY_URL">Come to a Sunday →</a>
+        <a class="btn btn-primary" href="https://app.herrhythm.in/forms/apply-herrhythm-form-Z12s9i">Apply to join</a>
+        <a class="btn btn-secondary" href="https://rzp.io/rzp/the-other-half-august">Come to a Sunday →</a>
       </div>
       <div class="hero-strip">
         <span>Bengaluru</span>
@@ -933,14 +943,14 @@
           <li><strong>Sundays at Lalbagh</strong><span>7:00 AM, every week, all year. A group thread of women in the same twelve weeks, and the ritual the whole program is built around. Members only, and we keep it that way on purpose.</span></li>
         </ul>
 
-        <a class="btn btn-primary" href="https://www.instagram.com/herrhythm.in/" data-hr-todo="APPLY_URL">Apply to join →</a>
+        <a class="btn btn-primary" href="https://app.herrhythm.in/forms/apply-herrhythm-form-Z12s9i">Apply to join →</a>
       </article>
 
       <article class="door">
         <h3>Run + Yoga</h3>
         <p>One Sunday a month, we open the doors. An easy run, a guided practice on the grass, coffee after, and about thirty women who get it. Roughly thirty spots, and they go.</p>
         <p class="door-note">The best way to meet us before you apply.</p>
-        <a class="btn btn-secondary" href="https://www.instagram.com/herrhythm.in/" data-hr-todo="SUNDAY_URL">Come to a Sunday →</a>
+        <a class="btn btn-secondary" href="https://rzp.io/rzp/the-other-half-august">Come to a Sunday →</a>
       </article>
     </div>
   </div>
@@ -1131,8 +1141,8 @@
     <h2>Ready to run with <em>your rhythm?</em></h2>
     <p class="lead mt-2">The next cohort opens soon. Applications are read personally, and spots are limited because the coaching is.</p>
     <div class="btn-row mt-4">
-      <a class="btn btn-primary" href="https://www.instagram.com/herrhythm.in/" data-hr-todo="APPLY_URL">Apply to join</a>
-      <a class="btn btn-secondary" href="https://www.instagram.com/herrhythm.in/" data-hr-todo="SUNDAY_URL">Come to a Sunday first →</a>
+      <a class="btn btn-primary" href="https://app.herrhythm.in/forms/apply-herrhythm-form-Z12s9i">Apply to join</a>
+      <a class="btn btn-secondary" href="https://rzp.io/rzp/the-other-half-august">Come to a Sunday first →</a>
     </div>
     <p class="cta-note">Not ready to decide? Come to a Sunday. That's what they're for.</p>
     <div class="cta-strip">
@@ -1160,7 +1170,7 @@
         <a href="#seasons">The Seasons</a>
         <a href="#ways">Ways to Move</a>
         <!-- HR-TODO: add Journal link here when section 9 ships -->
-        <a href="https://www.instagram.com/herrhythm.in/" data-hr-todo="APPLY_URL">Apply to join</a>
+        <a href="https://app.herrhythm.in/forms/apply-herrhythm-form-Z12s9i">Apply to join</a>
       </div>
       <div class="foot-col">
         <h4>About</h4>
