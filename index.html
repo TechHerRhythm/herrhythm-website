@@ -23,20 +23,20 @@
   <meta property="og:url" content="https://herrhythm.in/" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="en_IN" />
-  <!-- HR-TODO: no 1200x630 share card exists yet, so this is the square app
-       icon and the tags declare its real dimensions (never lie about these —
-       scrapers that get a mismatch drop the card entirely). twitter:card is
-       "summary" to match a square asset.
-       When the real card ships: a photograph of the community mid-run, warm
-       light, faces visible, with the logo lockup and the tagline. Keep all
-       text inside a centred 1000x430 safe area (WhatsApp and Instagram crop
-       inward) at >=40px in the 1200px master, under 300KB. Then switch these
-       to 1200/630 and twitter:card to summary_large_image. -->
-  <meta property="og:image" content="https://herrhythm.in/assets/icon-512.png" />
-  <meta property="og:image:width" content="512" />
-  <meta property="og:image:height" content="512" />
-  <meta property="og:image:alt" content="HerRhythm — a women's movement community in Bengaluru" />
-  <meta name="twitter:card" content="summary" />
+  <!-- 1200x630. A square image sits under WhatsApp's threshold for a large
+       preview, so it silently degraded to the small-thumbnail card. All type
+       sits inside a centred safe area because WhatsApp and Instagram crop
+       inward, and nothing is set below ~30px in the master — the thumbnail
+       renders around 330px wide, so smaller type turns to mush.
+       These dimensions must stay truthful: a scraper that trusts the tag and
+       gets a mismatch drops the card entirely. -->
+  <meta property="og:image" content="https://herrhythm.in/assets/og-card.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Women at a HerRhythm community yoga session in Bengaluru, with the tagline: women don't train in straight lines, we train in seasons" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://herrhythm.in/assets/og-card.jpg" />
 
   <!-- Icons -->
   <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" />
@@ -70,7 +70,7 @@
     "description": "A women's movement community in Bengaluru — running, yoga and strength, trained by the science of your seasons.",
     "url": "https://herrhythm.in/",
     "logo": "https://herrhythm.in/assets/logo-on-pink.png",
-    "image": "https://herrhythm.in/assets/hero-1920.jpg",
+    "image": "https://herrhythm.in/assets/og-card.jpg",
     "email": "info@herrhythm.in",
     "areaServed": { "@type": "City", "name": "Bengaluru" },
     "knowsAbout": [
